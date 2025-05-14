@@ -1,14 +1,14 @@
 @Library("Shared") _
 pipeline{
     
-    agent { label "dev"};
+    agent any
     
     stages{
         stage("Code Clone"){
             steps{
-               script{
-                   clone("https://github.com/LondheShubham153/two-tier-flask-app.git", "master")
-               }
+              git branch: 'main', 
+    credentialsId: 'github-pat', 
+    url: 'https://github.com/189preetis/two-tier-flask-app.git'
             }
         }
         stage("Trivy File System Scan"){
@@ -47,16 +47,16 @@ pipeline{
 post{
         success{
             script{
-                emailext from: 'mentor@trainwithshubham.com',
-                to: 'mentor@trainwithshubham.com',
+                emailext from: 'singhpreeti1618@gmail.com' ,
+                to: '18preetigzp@gmail.com',
                 body: 'Build success for Demo CICD App',
                 subject: 'Build success for Demo CICD App'
             }
         }
         failure{
             script{
-                emailext from: 'mentor@trainwithshubham.com',
-                to: 'mentor@trainwithshubham.com',
+                emailext from: 'singhpreeti1618@gmail.com',
+                to: '18preetigzp@gmail.com',
                 body: 'Build Failed for Demo CICD App',
                 subject: 'Build Failed for Demo CICD App'
             }
